@@ -1,0 +1,57 @@
+.card-horizontal {
+  display: flex;
+  flex: 1 1 auto;
+}
+.search-sec {
+  padding: 2rem;
+}
+.search-slt {
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #55595c;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  height: calc(3rem + 2px) !important;
+  border-radius: 0;
+}
+.wrn-btn {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: capitalize;
+  height: calc(3rem + 2px) !important;
+  border-radius: 0;
+}
+@media (min-width: 992px) {
+  .search-sec {
+    position: relative;
+    top: -114px;
+  }
+}
+
+@media (max-width: 992px) {
+  .search-sec {
+    background: #1a4668;
+  }
+}
+.view {
+  background: url("https://mdbootstrap.com/img/Photos/Others/img (40).jpg")
+    no-repeat center center;
+}
+
+.navbar {
+  background-color: transparent;
+}
+
+.top-nav-collapse {
+  background-color: #4285f4;
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+    background-color: #4285f4;
+  }
+}
