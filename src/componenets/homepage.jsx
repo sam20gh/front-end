@@ -16,6 +16,10 @@ class HomePage extends Component {
         </div>
         <Divider />
         <Container>
+          <Header as='h2' icon textAlign='center'>
+            <Header.Content>Ypur nearest airports are</Header.Content>
+          </Header>
+          {/* <Image centered size='large' src='/images/wireframe/centered-paragraph.png' /> */}
       
         <Grid stackable columns={3}>
           {this.props.airports.map(airport => (

@@ -42,6 +42,7 @@ class AirportDetails extends Component {
               <Table.HeaderCell>scheduledTime</Table.HeaderCell>
               <Table.HeaderCell>estimatedTime</Table.HeaderCell>
               <Table.HeaderCell>status</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           {this.state.flights.map(flight => (
