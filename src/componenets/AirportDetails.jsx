@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TimeTable from "./TimeTable";
+import { Grid, Image, Segment, Input, Icon, Header, Divider, Container, Table, Tab } from "semantic-ui-react";
 
 class AirportDetails extends Component {
   state = {
@@ -27,37 +28,37 @@ class AirportDetails extends Component {
         console.log(error, "catch the hoop");
       });
   };
+ 
 
   render() {
-    return (
-      <React.Fragment>
-        <h1>{this.props.airport.nameAirport}</h1>
-        <button
-          onClick={event => {
-            event.preventDefault();
-            console.log(this.props.airport);
-            this.setState({ type: "departure" });
-            this.getTimeTable();
-          }}
-        >
-          departure
-        </button>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Airline</th>
-              <th scope="col">Flight Number</th>
-              <th scope="col">scheduledTime</th>
-              <th scope="col">estimatedTime</th>
-              <th scope="col">status</th>
-            </tr>
-          </thead>
+    const panes = [
+      {
+        menuItem: 'Arrivals', render: () => <Tab.Pane><Table padded='very'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>#</Table.HeaderCell>
+              <Table.HeaderCell>Airline</Table.HeaderCell>
+              <Table.HeaderCell>Flight Number</Table.HeaderCell>
+              <Table.HeaderCell>scheduledTime</Table.HeaderCell>
+              <Table.HeaderCell>estimatedTime</Table.HeaderCell>
+              <Table.HeaderCell>status</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
           {this.state.flights.map(flight => (
             <TimeTable flight={flight} />
           ))}
-        </table>
+        </Table></Tab.Pane> },
+      { menuItem: 'Departure', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+      { menuItem: 'Airport Info', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+    ]
+    return (
+      <React.Fragment>
+        <Container>
+        <h1>{this.props.airport.nameAirport}</h1>
+          <Tab panes={panes} />
+
+        
+        </Container>
       </React.Fragment>
     );
   }

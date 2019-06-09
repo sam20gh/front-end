@@ -25,6 +25,7 @@ class App extends Component {
       },
       err => console.log(err)
     );
+    
   }
 
   fetchAirportData = () => {

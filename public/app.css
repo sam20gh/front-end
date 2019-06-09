@@ -11,6 +11,11 @@
 .search-sec {
   padding: 2rem;
 }
+.landing-image {
+  background-image: url('/images/background.jpg') !important;
+  background-size: cover !important;
+  min-height: 700px;
+}
 .search-slt {
   display: block;
   width: 100%;
