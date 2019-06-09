@@ -2,6 +2,12 @@
   display: flex;
   flex: 1 1 auto;
 }
+.ui.items {
+  padding: 10px;
+  border: #aeaeae 1px solid;
+  border-radius: 5px;
+  margin: 0 5px 0 5px !important;
+}
 .search-sec {
   padding: 2rem;
 }

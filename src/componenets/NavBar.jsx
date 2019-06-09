@@ -1,41 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { Component } from "react";
+import { Icon, Menu } from "semantic-ui-react";
 
-// import Search from "./Search";
+export default class NavBar extends Component {
+  state = {};
 
-const Navbar = props => (
-  <React.Fragment>
-    <nav className="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
-      <a className="navbar-brand" href="#">
-        <strong>Navbar</strong>
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div
-        className="collapse navbar-collapse justify-content-end"
-        id="navbarSupportedContent"
-      >
-        <ul className="navbar-nav navbar-right">
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Profile
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
-    <div className="view intro hm-purple-light" styles="height: 400px;" />
-  </React.Fragment>
-);
+  render() {
+    const { activeItem } = this.state;
 
-export default Navbar;
+    return (
+      <Menu stackable>
+        <Menu.Item>
+          <img src="/logo.png" />
+        </Menu.Item>
+
+        <Menu.Item
+          name="list ul"
+          to="/home"
+          active={activeItem === "list ul"}
+          onClick={this.handleItemClick}
+        >
+          <Icon name="list ul" />
+        </Menu.Item>
+      </Menu>
+    );
+  }
+}

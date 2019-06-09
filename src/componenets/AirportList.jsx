@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import Airport from "./Airport";
-import { Link } from "react-router-dom";
+import { Grid, Image, Segment } from "semantic-ui-react";
 
 class AirportList extends Component {
   render() {
     return (
-      <React.Fragment>
-        <hr className="half-rule" />
-        <div className="container">
-          <div className="row">
-            {this.props.airports.map(airport => (
-              <Airport key={airport.airportId} airport={airport} />
-            ))}
-          </div>
-        </div>
-      </React.Fragment>
+      <Grid stackable columns={3}>
+        {this.props.airports.map(airport => (
+          <Airport
+            key={airport.airportId}
+            airport={airport}
+            getTimeTable={airport}
+          />
+        ))}
+      </Grid>
     );
   }
 }
