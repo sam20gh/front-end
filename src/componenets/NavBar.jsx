@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Icon, Menu } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { Icon, Menu, Dropdown, Button } from "semantic-ui-react";
 
 export default class NavBar extends Component {
   state = {};
@@ -8,11 +9,12 @@ export default class NavBar extends Component {
 
   render() {
     const { activeItem } = this.state;
+    const { username } = this.props;
 
     return (
       <Menu stackable>
-        <Menu.Item>
-          <img src="/logo.png" />
+        <Menu.Item as={Link} to="/">
+          <img src="/images/logo.png" />
         </Menu.Item>
 
         <Menu.Item
@@ -23,6 +25,12 @@ export default class NavBar extends Component {
         >
           <Icon name="list ul" />
         </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item as={Link} to="/dashboard">
+            <Icon name="user circle outline" />
+            <p>{!username ? "Welcome" : `Welcome ${username}`}</p>
+          </Menu.Item>
+        </Menu.Menu>
       </Menu>
     );
   }

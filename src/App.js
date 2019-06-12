@@ -1,18 +1,42 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import HomePage from "./componenets/homepage";
 import AirportList from "./componenets/AirportList";
 import Navbar from "./componenets/NavBar";
 import AirportDetails from "./componenets/AirportDetails";
+import { Dimmer, Loader, Image, Segment, Container } from "semantic-ui-react";
+import LoginForm from "./componenets/LoginForm";
+import Dashboard from "./componenets/Dashborad";
+import API from "./API";
 
 class App extends Component {
   state = {
+    username: "",
     airports: [],
     selectedAirport: null,
     lat: null,
     lng: null
   };
+  signin = (username, token) => {
+    localStorage.setItem("token", token);
+    this.setState({ username });
+    // this.setState({ username }, () => {
+    //   this.props.history.push("/airports");
+    // });
+  };
+
+  signout = () => {
+    this.setState({ username: "" });
+    localStorage.removeItem("token");
+  };
   componentDidMount() {
+    API.validate().then(data => {
+      if (data.error) {
+        this.props.history.push("/login");
+      } else {
+        this.signin(data.username, localStorage.getItem("token"));
+      }
+    });
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(
@@ -25,7 +49,6 @@ class App extends Component {
       },
       err => console.log(err)
     );
-    
   }
 
   fetchAirportData = () => {
@@ -45,9 +68,11 @@ class App extends Component {
   };
 
   render() {
+    const { signin, signout } = this;
+    const { username } = this.state;
     return (
       <div className="App">
-        <Navbar />
+        <Navbar username={username} />
         <Switch>
           <Route
             exact
@@ -62,6 +87,29 @@ class App extends Component {
             )}
           />
           <Route
+            exact
+            path="/login"
+            component={props => (
+              <LoginForm
+                {...props}
+                signin={signin}
+                airports={this.state.airports}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/dashboard"
+            component={props => (
+              <Dashboard
+                {...props}
+                signout={signout}
+                username={username}
+                airports={this.state.airports}
+              />
+            )}
+          />
+          <Route
             path="/airports/:code"
             component={props => {
               const code = props.match.params.code;
@@ -69,7 +117,18 @@ class App extends Component {
                 airport => airport.codeIcaoAirport === code
               );
 
-              if (this.state.airports.length === 0) return <h1>Loading...</h1>;
+              if (this.state.airports.length === 0)
+                return (
+                  <Container textAlign="center">
+                    <Segment>
+                      <Dimmer active>
+                        <Loader size="tiny">Loading</Loader>
+                      </Dimmer>
+
+                      <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+                    </Segment>
+                  </Container>
+                );
 
               if (this.state.airports.length > 0 && airport === undefined)
                 return <h1>Airport not found</h1>;
@@ -90,4 +149,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

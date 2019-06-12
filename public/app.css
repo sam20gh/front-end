@@ -11,10 +11,19 @@
 .search-sec {
   padding: 2rem;
 }
+.ui.icon.header.aligned {
+  padding-top: 30% !important;
+}
+.ui.ribbon.label {
+  left: calc(0rem - 1.2em) !important;
+}
 .landing-image {
-  background-image: url('/images/background.jpg') !important;
+  background-image: url("/images/background.jpg") !important;
   background-size: cover !important;
   min-height: 700px;
+}
+.ui.table td img {
+  max-width: 50px;
 }
 .search-slt {
   display: block;
