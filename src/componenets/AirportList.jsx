@@ -12,6 +12,7 @@ class AirportList extends Component {
               key={airport.airportId}
               airport={airport}
               getTimeTable={airport}
+              myairports={this.props.myairports}
             />
           ))}
         </Grid>

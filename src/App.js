@@ -7,19 +7,21 @@ import AirportDetails from "./componenets/AirportDetails";
 import { Dimmer, Loader, Image, Segment, Container } from "semantic-ui-react";
 import LoginForm from "./componenets/LoginForm";
 import Dashboard from "./componenets/Dashborad";
+import JoinForm from "./componenets/JoinForm";
 import API from "./API";
 
 class App extends Component {
   state = {
     username: "",
+    userId: "",
     airports: [],
-    selectedAirport: null,
+    myairports: [],
     lat: null,
     lng: null
   };
-  signin = (username, token) => {
+  signin = (username, token, userId) => {
     localStorage.setItem("token", token);
-    this.setState({ username });
+    this.setState({ username, userId });
     // this.setState({ username }, () => {
     //   this.props.history.push("/airports");
     // });
@@ -31,10 +33,13 @@ class App extends Component {
   };
   componentDidMount() {
     API.validate().then(data => {
+      this.signin(data.username, localStorage.getItem("token"));
+    });
+    API.getMyAirports().then(data => {
       if (data.error) {
-        this.props.history.push("/login");
+        alert(data.error);
       } else {
-        this.signin(data.username, localStorage.getItem("token"));
+        this.setState({ myairports: data });
       }
     });
     navigator.geolocation.getCurrentPosition(
@@ -60,7 +65,7 @@ class App extends Component {
         this.state.lat +
         "&lng=" +
         this.state.lng +
-        "&distance=50"
+        "&distance=54"
     )
       .then(resp => resp.json())
       .then(json => json.filter(airport => airport.codeIcaoAirport !== ""))
@@ -83,7 +88,22 @@ class App extends Component {
             exact
             path="/airports"
             component={props => (
-              <AirportList {...props} airports={this.state.airports} />
+              <AirportList
+                {...props}
+                airports={this.state.airports}
+                myairports={this.state.myairports}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/join"
+            component={props => (
+              <JoinForm
+                {...props}
+                signin={signin}
+                airports={this.state.airports}
+              />
             )}
           />
           <Route
@@ -106,6 +126,7 @@ class App extends Component {
                 signout={signout}
                 username={username}
                 airports={this.state.airports}
+                myairports={this.state.myairports}
               />
             )}
           />
@@ -137,6 +158,7 @@ class App extends Component {
                 <AirportDetails
                   {...props}
                   airport={airport}
+                  userId={this.state.userId}
                   getTimeTable={this.getTimeTable}
                 />
               );

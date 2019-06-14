@@ -41,6 +41,7 @@ class AirportDetails extends Component {
         )
       )
       .then(flights => {
+        console.log(flights);
         this.setState({ flights });
       })
 
@@ -71,7 +72,11 @@ class AirportDetails extends Component {
               </Table.Header>
               <Table.Body>
                 {this.state.flights.map(flight => (
-                  <TimeTable flight={flight} />
+                  <TimeTable
+                    key={flight.flight.iataNumber}
+                    userId={this.props.userId}
+                    flight={flight}
+                  />
                 ))}
               </Table.Body>
             </Table>
@@ -80,18 +85,73 @@ class AirportDetails extends Component {
       },
       {
         menuItem: "Departure",
-        render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>
+        render: () => (
+          <Tab.Pane>
+            <Table padded="very">
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Airline</Table.HeaderCell>
+                  <Table.HeaderCell>Flight Number</Table.HeaderCell>
+                  <Table.HeaderCell>scheduledTime</Table.HeaderCell>
+                  <Table.HeaderCell>estimatedTime</Table.HeaderCell>
+                  <Table.HeaderCell>Delay</Table.HeaderCell>
+                  <Table.HeaderCell>Terminal</Table.HeaderCell>
+                  <Table.HeaderCell>status</Table.HeaderCell>
+                  <Table.HeaderCell>follow</Table.HeaderCell>
+                  <Table.HeaderCell />
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {this.state.flights.map(flight => (
+                  <TimeTable
+                    key={flight.flight.iataNumber}
+                    userId={this.props.userId}
+                    flight={flight}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </Tab.Pane>
+        )
       },
       {
         menuItem: "Airport Info",
-        render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>
+        render: () => (
+          <Tab.Pane>
+            <Header as="h1" icon="plane" color="orange">
+              {this.props.airport.nameAirport}
+            </Header>
+            <Header as="h3" icon="plane" color="orange">
+              {this.props.airport.codeIataAirport}
+            </Header>
+            <Header as="h3">Contact number: {this.props.airport.phone}</Header>
+            <Header as="h3">Country: {this.props.airport.nameCountry}</Header>
+            <Header as="h3">
+              {Math.round(this.props.airport.distance * 10) / 10} Miles away
+            </Header>
+          </Tab.Pane>
+        )
       }
     ];
     return (
       <React.Fragment>
-        <Container>
-          <h1>{this.props.airport.nameAirport}</h1>
-          <h3>{this.props.airport.IataCode}</h3>
+        <Container fluid>
+          <Image
+            src={"/images/" + this.props.airport.codeIcaoAirport + ".jpg"}
+            onError={e => {
+              e.target.onerror = null;
+              e.target.src = "https://picsum.photos/150/150/?blur=6";
+            }}
+            fluid
+          />
+        </Container>
+        <Container className="aiporthome">
+          <Header as="h1" icon="plane" color="orange">
+            {this.props.airport.nameAirport}
+          </Header>
+          <Header as="h3" icon="plane" color="orange">
+            {this.props.airport.codeIataAirport}
+          </Header>
           <Tab panes={panes} />
         </Container>
       </React.Fragment>

@@ -24,14 +24,14 @@ class HomePage extends Component {
                 <Header.Content>Airio</Header.Content>
                 <p>Search flights and Airports</p>
               </Header>
-              <Input fluid icon="search" placeholder="Search..." />
+              <Input id="test" fluid icon="search" placeholder="Search..." />
             </Container>
           </div>
         </div>
         <Divider />
         <Container>
           <Header as="h2" icon textAlign="center">
-            <Header.Content>Ypur nearest airports are</Header.Content>
+            <Header.Content>Your nearest airports are</Header.Content>
           </Header>
           {/* <Image centered size='large' src='/images/wireframe/centered-paragraph.png' /> */}
 

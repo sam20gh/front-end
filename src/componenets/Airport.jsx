@@ -1,41 +1,70 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Grid, Image, Item, Label, Card, Icon } from "semantic-ui-react";
+import API from "../API";
 
-const Airport = props => {
-  const { airport } = props;
-
-  return (
-    <Card href={"../airports/" + airport.codeIcaoAirport} centered="true">
-      <Image
-        fluid
-        label={{
-          as: "a",
-          color: "red",
-          content: "Nearest",
-          icon: "map marker alternate",
-          ribbon: true
-        }}
-        src="https://picsum.photos/300/300/?grayscale&blur=10"
-        wrapped
-        ui={true}
-      />
-      <Card.Content>
-        <Card.Header>{airport.nameAirport}</Card.Header>
-        <Card.Meta>
-          <span className="date">{airport.codeIcaoAirport}</span>
-        </Card.Meta>
-        <Card.Description>{airport.nameAirport}</Card.Description>
-        <span className="date">{airport.nameCountry}</span>
-      </Card.Content>
-      <Card.Content extra>
-        <a>
-          <Icon name="map marker alternate" />
-          {airport.distance}
-        </a>
-      </Card.Content>
-    </Card>
-  );
-};
+class Airport extends Component {
+  handleLike = () => {
+    API.likeAirport(this.props.airport).then(data => {
+      if (data.error) {
+        alert(`Didn't work!: ${data.error}`);
+      }
+    });
+  };
+  render() {
+    // const like = this.props.airport.id === this.props.myairports.id;
+    return (
+      <Card centered="true">
+        <Image
+          fluid
+          label={{
+            as: "a",
+            color: "red",
+            content: "Nearest",
+            icon: "map marker alternate",
+            ribbon: true
+          }}
+          src={"/images/" + this.props.airport.codeIcaoAirport + ".jpg"}
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = "https://picsum.photos/150/150/?blur=6";
+          }}
+          alt={this.props.airport.nameAirpor}
+          wrapped
+          ui={true}
+          wrapped
+          ui={true}
+        />
+        <Card.Content>
+          <Card.Header
+            href={"../airports/" + this.props.airport.codeIcaoAirport}
+          >
+            {this.props.airport.nameAirport}
+          </Card.Header>
+          <Card.Meta>
+            <span className="date">{this.props.airport.codeIcaoAirport}</span>
+          </Card.Meta>
+          <Card.Description>{this.props.airport.nameAirport}</Card.Description>
+          <span className="date">{this.props.airport.nameCountry}</span>
+        </Card.Content>
+        <Card.Content extra>
+          <a>
+            <Icon name="map marker alternate" />
+            {Math.round(this.props.airport.distance * 10) / 10} Miles away
+          </a>
+          <a
+            className="icon-right"
+            onClick={event => {
+              event.stopPropagation();
+              this.handleLike();
+            }}
+          >
+            <Icon name="heart outline" />
+          </a>
+        </Card.Content>
+      </Card>
+    );
+  }
+}
 
 export default Airport;

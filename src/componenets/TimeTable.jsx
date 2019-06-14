@@ -17,22 +17,29 @@ import Switch, { Case, Default } from "react-switch-case";
 
 class TimeTable extends Component {
   state = {
-    contentLinkClicked: false
+    contentLinkClicked: false,
+    liked: {}
   };
   handleShowFlight = () => {
     this.setState({
       contentLinkClicked: true
     });
   };
+  handleLike = flight => {
+    this.setState({
+      liked: flight
+    });
+  };
   render() {
     return (
       <React.Fragment>
         <Table.Row
-          onClick={e =>
+          onClick={e => {
+            e.preventDefault();
             this.setState({
               contentLinkClicked: !this.state.contentLinkClicked
-            })
-          }
+            });
+          }}
         >
           <Table.Cell>
             <img
@@ -70,8 +77,16 @@ class TimeTable extends Component {
             </Switch>
           </Table.Cell>
           <Table.Cell> {this.props.flight.arrival.terminal}</Table.Cell>
-          <Table.Cell class="positive">{this.props.flight.status}</Table.Cell>
-          <Table.Cell>
+          <Table.Cell className="positive">
+            {this.props.flight.status}
+          </Table.Cell>
+          <Table.Cell
+            onClick={event => {
+              event.preventDefault();
+              event.stopPropagation();
+              this.handleLike(this.props.flight);
+            }}
+          >
             <Icon disabled name="heart outline" />
           </Table.Cell>
           <Table.Cell>

@@ -8,27 +8,66 @@ import {
   Message,
   Segment,
   TableFooter,
-  Container
+  Container,
+  Divider
 } from "semantic-ui-react";
+import MyAirport from "./MyAirport";
 
 class Dashboard extends Component {
   componentDidMount() {
     if (!this.props.username) {
       this.props.history.push("/login");
     } else {
-      alert("welcome");
+      console.log("fff");
     }
   }
   render() {
-    const { username, signout } = this.props;
+    const { username, signout, myairports } = this.props;
     return (
-      <Container fluid>
-        <Header as="h2">{`Welcome ${username}`}</Header>
+      <React.Fragment>
+        <Container fluid className="profile">
+          <Image src="https://picsum.photos/450/150/" fluid />
+        </Container>
+        <Image
+          className="profile-image"
+          src="https://picsum.photos/150/150/"
+          size="small"
+          circular
+        />
+        <Container>
+          <div>
+            <Container textAlign="left">
+              {" "}
+              <Header as="h1">{`Welcome ${username}`}</Header>
+            </Container>
+            <Container textAlign="right">
+              <b />
+              <Button negative onClick={signout}>
+                Sign out
+              </Button>
+            </Container>
+          </div>
+          {/* <Container>
+            <Header as="h2">{`Welcome ${username}`}</Header>
 
-        <Button negative onClick={signout}>
-          Sign out
-        </Button>
-      </Container>
+            <Button negative onClick={signout}>
+              Sign out
+            </Button>
+          </Container> */}
+
+          <Container>
+            <Header as="h3">You are following these Airports</Header>
+            <Grid stackable columns={3}>
+              {myairports.length === 0 && (
+                <p>Sorry, you don't have any items.</p>
+              )}
+              {myairports.map(myairport => (
+                <MyAirport key={myairport.id} myairport={myairport} />
+              ))}
+            </Grid>
+          </Container>
+        </Container>
+      </React.Fragment>
     );
   }
 }
