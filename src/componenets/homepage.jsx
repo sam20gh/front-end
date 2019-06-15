@@ -23,7 +23,6 @@ class HomePage extends Component {
                 <Icon name="plane" circular />
                 <Header.Content>Airio</Header.Content>
                 <p>Search flights and Airports</p>
-                <p>now</p>
               </Header>
               <Input id="test" fluid icon="search" placeholder="Search..." />
             </Container>
