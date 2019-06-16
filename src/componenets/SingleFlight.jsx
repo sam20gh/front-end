@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
+import Marker from "./Marker"
 import Airport from "./Airport";
 import { Link } from "react-router-dom";
 import TimeTable from "./TimeTable";
@@ -86,11 +87,11 @@ class SingleFlight extends Component {
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                   >
-                    {/* <AnyReactComponent
-                      lat={59.955413}
-                      lng={30.337844}
-                      text="My Marker"
-                    /> */}
+                    <Marker
+                      text={"ndndnd"}
+                      lat={52.425830}
+                      lng={-1.956230}
+                    />
                   </GoogleMapReact>
                 </div>
               </Grid.Column>
