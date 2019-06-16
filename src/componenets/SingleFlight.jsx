@@ -82,7 +82,7 @@ class SingleFlight extends Component {
                 <div style={{ height: "40vh", width: "100%" }}>
                   <GoogleMapReact
                     bootstrapURLKeys={{
-                      key: "AIzaSyA4kpdWEHACeoWB4CaK0zNPdGAnnwqe5dQ"
+                      key: ""
                     }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
