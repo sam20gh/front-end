@@ -8,22 +8,36 @@ class Airport extends Component {
     API.likeAirport(this.props.airport).then(data => {
       if (data.error) {
         alert(`Didn't work!: ${data.error}`);
+      } else {
+        // window.location.reload();
+
+        API.getMyAirports().then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            this.props.handleStateUpdateLikeAirport(data);
+          }
+        });
       }
     });
   };
+
   render() {
-    // const like = this.props.airport.id === this.props.myairports.id;
+    const { liked } = this.props;
     return (
-      <Card centered="true">
+      <Card
+        centered="true"
+        href={"../airports/" + this.props.airport.codeIataAirport}
+      >
         <Image
           fluid
-          label={{
-            as: "a",
-            color: "red",
-            content: "Nearest",
-            icon: "map marker alternate",
-            ribbon: true
-          }}
+          // label={{
+          //   as: "a",
+          //   color: "red",
+          //   content: "Nearest",
+          //   icon: "map marker alternate",
+          //   ribbon: true
+          // }}
           src={"/images/" + this.props.airport.codeIcaoAirport + ".jpg"}
           onError={e => {
             e.target.onerror = null;
@@ -33,14 +47,9 @@ class Airport extends Component {
           wrapped
           ui={true}
           wrapped
-          ui={true}
         />
         <Card.Content>
-          <Card.Header
-            href={"../airports/" + this.props.airport.codeIcaoAirport}
-          >
-            {this.props.airport.nameAirport}
-          </Card.Header>
+          <Card.Header>{this.props.airport.nameAirport}</Card.Header>
           <Card.Meta>
             <span className="date">{this.props.airport.codeIcaoAirport}</span>
           </Card.Meta>
@@ -55,11 +64,15 @@ class Airport extends Component {
           <a
             className="icon-right"
             onClick={event => {
+              event.preventDefault();
               event.stopPropagation();
               this.handleLike();
             }}
           >
-            <Icon name="heart outline" />
+            <Icon
+              name={`heart ${liked ? "" : "outline"}`}
+              color={liked ? "red" : ""}
+            />
           </a>
         </Card.Content>
       </Card>

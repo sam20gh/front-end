@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import HomePage from "./componenets/homepage";
-import AirportList from "./componenets/AirportList";
-import Navbar from "./componenets/NavBar";
-import AirportDetails from "./componenets/AirportDetails";
+import HomePage from "./Componenets/homepage";
+import AirportList from "./Componenets/AirportList";
+import Navbar from "./Componenets/NavBar";
+import AirportDetails from "./Componenets/AirportDetails";
 import { Dimmer, Loader, Image, Segment, Container } from "semantic-ui-react";
-import LoginForm from "./componenets/LoginForm";
-import Dashboard from "./componenets/Dashborad";
-import JoinForm from "./componenets/JoinForm";
+import LoginForm from "./Componenets/LoginForm";
+import Dashboard from "./Componenets/Dashborad";
+import JoinForm from "./Componenets/JoinForm";
+import Footer from "./Componenets/Footer";
 import API from "./API";
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
     username: "",
     userId: "",
     airports: [],
+    allAirports: [],
     myairports: [],
     lat: null,
     lng: null
@@ -25,6 +27,12 @@ class App extends Component {
     // this.setState({ username }, () => {
     //   this.props.history.push("/airports");
     // });
+  };
+
+  handleStateUpdateLikeAirport = data => {
+    this.setState({
+      myairports: data
+    });
   };
 
   signout = () => {
@@ -54,6 +62,7 @@ class App extends Component {
       },
       err => console.log(err)
     );
+    this.fetchAllAirportData();
   }
 
   fetchAirportData = () => {
@@ -65,24 +74,94 @@ class App extends Component {
         this.state.lat +
         "&lng=" +
         this.state.lng +
-        "&distance=54"
+        "&distance=44.8"
     )
       .then(resp => resp.json())
       .then(json => json.filter(airport => airport.codeIcaoAirport !== ""))
       .then(airports => this.setState({ airports }));
   };
+  fetchAllAirportData = () => {
+    const API_KEY = process.env.REACT_APP_AVIATION_API_KEY;
+    fetch(
+      "https://aviation-edge.com/v2/public/airportDatabase?key=" +
+        API_KEY +
+        "&codeIso2Country=GB"
+    )
+      .then(resp => resp.json())
+      .then(allAirports => this.setState({ allAirports }));
+  };
 
   render() {
     const { signin, signout } = this;
     const { username } = this.state;
+
+    // const allAirports = [
+    //   {
+    //     created_at: "2019-06-14T09:35:16.374Z",
+    //     iatacode: "LCY",
+    //     icaocode: "EGLC",
+    //     id: 1,
+    //     name: "London City Airport",
+    //     updated_at: "2019-06-14T09:35:16.374Z"
+    //   },
+    //   {
+    //     created_at: "2019-06-14T09:35:16.374Z",
+    //     iatacode: "LCY",
+    //     icaocode: "EGLC",
+    //     id: 2,
+    //     name: "London City Airport",
+    //     updated_at: "2019-06-14T09:35:16.374Z"
+    //   },
+    //   {
+    //     created_at: "2019-06-14T09:35:16.374Z",
+    //     iatacode: "LCY",
+    //     icaocode: "EGLC",
+    //     id: 3,
+    //     name: "London City Airport",
+    //     updated_at: "2019-06-14T09:35:16.374Z"
+    //   },
+    //   {
+    //     created_at: "2019-06-14T09:35:16.374Z",
+    //     iatacode: "LCY",
+    //     icaocode: "EGLC",
+    //     id: 4,
+    //     name: "London City Airport",
+    //     updated_at: "2019-06-14T09:35:16.374Z"
+    //   }
+    // ];
+
+    // const airport1 = {
+    //   created_at: "2019-06-14T09:35:16.374Z",
+    //   iatacode: "LCY",
+    //   icaocode: "EGLC",
+    //   id: 4,
+    //   name: "London City Airport",
+    //   updated_at: "2019-06-14T09:35:16.374Z"
+    // };
+
+    // const doILikeThisAirport = targetAirport =>
+    //   this.state.allAirports.some(airport => airport.id === targetAirport.id);
+
     return (
       <div className="App">
+        {/* <Airport airport={airport1} liked={doILikeThisAirport(airport1)} /> */}
         <Navbar username={username} />
+        {/* <Sidebar /> */}
         <Switch>
           <Route
             exact
             path="/"
-            component={prop => <HomePage airports={this.state.airports} />}
+            component={props => (
+              <HomePage
+                {...props}
+                airports={this.state.airports}
+                allAirports={this.state.allAirports}
+                myairports={this.state.myairports}
+                handleStateUpdateLikeAirport={data =>
+                  this.handleStateUpdateLikeAirport(data)
+                }
+              />
+            )}
           />
           <Route
             exact
@@ -92,6 +171,10 @@ class App extends Component {
                 {...props}
                 airports={this.state.airports}
                 myairports={this.state.myairports}
+                allAirports={this.state.allAirports}
+                handleStateUpdateLikeAirport={data =>
+                  this.handleStateUpdateLikeAirport(data)
+                }
               />
             )}
           />
@@ -127,6 +210,9 @@ class App extends Component {
                 username={username}
                 airports={this.state.airports}
                 myairports={this.state.myairports}
+                handleStateUpdateLikeAirport={data =>
+                  this.handleStateUpdateLikeAirport(data)
+                }
               />
             )}
           />
@@ -135,15 +221,15 @@ class App extends Component {
             component={props => {
               const code = props.match.params.code;
               const airport = this.state.airports.find(
-                airport => airport.codeIcaoAirport === code
+                airport => airport.codeIataAirport === code
               );
 
               if (this.state.airports.length === 0)
                 return (
                   <Container textAlign="center">
                     <Segment>
-                      <Dimmer active>
-                        <Loader size="tiny">Loading</Loader>
+                      <Dimmer active inverted>
+                        <Loader size="large">Loading</Loader>
                       </Dimmer>
 
                       <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
@@ -158,7 +244,6 @@ class App extends Component {
                 <AirportDetails
                   {...props}
                   airport={airport}
-                  userId={this.state.userId}
                   getTimeTable={this.getTimeTable}
                 />
               );
@@ -166,6 +251,7 @@ class App extends Component {
           />
           <Route component={props => <h1>404 - Not Found</h1>} />
         </Switch>
+        <Footer />
       </div>
     );
   }

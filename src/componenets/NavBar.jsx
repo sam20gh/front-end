@@ -17,14 +17,14 @@ export default class NavBar extends Component {
           <img src="/images/logo.png" />
         </Menu.Item>
 
-        <Menu.Item
+        {/* <Menu.Item
           name="list ul"
           to="/home"
           active={activeItem === "list ul"}
-          onClick={this.handleItemClick}
+          onClick={!this.handleItemClick}
         >
           <Icon name="list ul" />
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Menu position="right">
           <Menu.Item as={Link} to="/dashboard">
             <Icon name="user circle outline" />

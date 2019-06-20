@@ -5,6 +5,8 @@ class API {
   static joinUrl = API.baseUrl + "/create";
   static likeAirportUrl = API.baseUrl + "/likeairports";
   static myAirportsUrl = API.baseUrl + "/myairports";
+  static myCommentsUrl = API.baseUrl + "/mycomments";
+  static commentUrl = API.baseUrl + "/comment";
 
   static signin(user) {
     return fetch(this.signInUrl, {
@@ -38,8 +40,26 @@ class API {
       body: JSON.stringify(airport)
     }).then(resp => resp.json());
   }
+  static comment(comment) {
+    return fetch(this.commentUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(comment)
+    }).then(resp => resp.json());
+  }
   static myAirports() {
     return fetch(this.likeAirportUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(resp => resp.json());
+  }
+  static myComments() {
+    return fetch(this.myAirportsUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -53,5 +73,7 @@ class API {
     }).then(resp => resp.json());
   }
 }
+
+window.API = API;
 
 export default API;

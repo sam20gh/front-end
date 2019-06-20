@@ -18,11 +18,15 @@ class Dashboard extends Component {
     if (!this.props.username) {
       this.props.history.push("/login");
     } else {
-      console.log("fff");
+      console.log("");
     }
   }
   render() {
     const { username, signout, myairports } = this.props;
+    const doILikeThisAirport = targetAirport =>
+      this.props.myairports.some(
+        airport => airport.name === targetAirport.nameAirport
+      );
     return (
       <React.Fragment>
         <Container fluid className="profile">
@@ -34,8 +38,8 @@ class Dashboard extends Component {
           size="small"
           circular
         />
-        <Container>
-          <div>
+        <Container text>
+          <div className="dashboard">
             <Container textAlign="left">
               {" "}
               <Header as="h1">{`Welcome ${username}`}</Header>
@@ -47,22 +51,22 @@ class Dashboard extends Component {
               </Button>
             </Container>
           </div>
-          {/* <Container>
-            <Header as="h2">{`Welcome ${username}`}</Header>
-
-            <Button negative onClick={signout}>
-              Sign out
-            </Button>
-          </Container> */}
 
           <Container>
-            <Header as="h3">You are following these Airports</Header>
-            <Grid stackable columns={3}>
+            <Header as="h2">You are following these Airports</Header>
+            <Grid stackable columns={6}>
               {myairports.length === 0 && (
                 <p>Sorry, you don't have any items.</p>
               )}
               {myairports.map(myairport => (
-                <MyAirport key={myairport.id} myairport={myairport} />
+                <MyAirport
+                  key={myairport.id}
+                  myairport={myairport}
+                  liked={doILikeThisAirport(myairport)}
+                  handleStateUpdateLikeAirport={data =>
+                    this.props.handleStateUpdateLikeAirport(data)
+                  }
+                />
               ))}
             </Grid>
           </Container>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
-import Marker from "./Marker"
+import Marker from "./Marker";
+import Plane from "./Plane";
 import Airport from "./Airport";
 import { Link } from "react-router-dom";
 import TimeTable from "./TimeTable";
@@ -30,19 +31,24 @@ class SingleFlight extends Component {
   };
 
   static defaultProps = {
-    center: {
-      lat: 52.1792,
-      lng: -0.787888
+    airport: {
+      latitudeAirport: -5.466667,
+      longitudeAirport: 122.6333
     },
-    zoom: 11
+    zoom: 6
   };
+
   render() {
+    const GOOGLE_API_KEY = process.env.REACT_GOOGLE_AVIATION_API_KEY;
+
     return (
       <React.Fragment>
+        <Progress size="tiny" percent={this.state.percent} indicating />
         <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
               <Container textAlign="left">
+                <h3>{this.props.flight.airline.name}</h3>
                 <h3>{this.props.flight.departure.iataCode}</h3>
               </Container>
               <Container textAlign="left">
@@ -60,11 +66,9 @@ class SingleFlight extends Component {
           </Grid.Row>
         </Grid>
         <Container textAlign="justified">
+          <div />
           <b>Flight Details</b>
           <Divider />
-          <div>
-            <Progress percent={this.state.percent} indicating />
-          </div>
           <Grid columns={2} divided>
             <Grid.Row>
               <Grid.Column>
@@ -77,20 +81,24 @@ class SingleFlight extends Component {
                 <h1>Status:</h1>
                 <p>{this.props.flight.status}</p>
                 <Divider />
+                <Plane route={this.props.route} />
               </Grid.Column>
               <Grid.Column>
-                <div style={{ height: "40vh", width: "100%" }}>
+                <div style={{ height: "62vh", width: "100%" }}>
                   <GoogleMapReact
                     bootstrapURLKeys={{
-                      key: ""
+                      key: "AIzaSyA4kpdWEHACeoWB4CaK0zNPdGAnnwqe5dQ"
                     }}
-                    defaultCenter={this.props.center}
+                    defaultCenter={{
+                      lat: parseFloat(this.props.route[0].geography.latitude),
+                      lng: parseFloat(this.props.route[0].geography.longitude)
+                    }}
                     defaultZoom={this.props.zoom}
                   >
                     <Marker
                       text={"ndndnd"}
-                      lat={52.425830}
-                      lng={-1.956230}
+                      lat={parseFloat(this.props.route[0].geography.latitude)}
+                      lng={parseFloat(this.props.route[0].geography.longitude)}
                     />
                   </GoogleMapReact>
                 </div>

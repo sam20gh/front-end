@@ -1,7 +1,107 @@
+body {
+  font-family: "Poppins", sans-serif !important;
+}
 .card-horizontal {
   display: flex;
   flex: 1 1 auto;
 }
+.react-autosuggest__container {
+  position: relative;
+}
+.ui.grid > .row > .column > img,
+.ui.grid > .row > img {
+  border-radius: 50%;
+  max-width: 80% !important;
+}
+
+.react-autosuggest__input {
+  width: 100%;
+  height: 38px;
+  padding: 10px 20px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+.ui.red.button {
+  width: 100%;
+}
+
+.react-autosuggest__input--focused {
+  outline: none;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+.dashboard {
+  margin: 10px;
+  padding: 20px;
+}
+h1 {
+  font-family: "Poppins", sans-serif !important;
+}
+h2 {
+  font-family: "Poppins", sans-serif !important;
+}
+h3 {
+  font-family: "Poppins", sans-serif !important;
+}
+p {
+  font-family: "Poppins", sans-serif !important;
+}
+a {
+  font-family: "Poppins", sans-serif !important;
+}
+.ui.card:first-child {
+  margin-top: 18px !important;
+}
+.ui.fluid.container {
+  margin-top: -15px !important;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0 auto;
+  width: 100%;
+  color: #000000;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
+}
+
 .ui.items {
   padding: 10px;
   border: #aeaeae 1px solid;
@@ -12,30 +112,40 @@
   max-height: 200px;
   overflow: hidden;
 }
-.ui.inverted.segment,
-.ui.primary.inverted.segment {
-  margin-top: -14px !important;
+.ui.vertical.inverted.segment:last-child {
+  margin-top: 100px !important;
 }
+
 .ui.fluid.container {
   max-height: 300px;
   overflow: hidden;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.32);
 }
 .aiporthome {
   margin-top: -200px !important;
+  background: #ffffff4d;
+  padding: 20px;
+  border-radius: 20px;
 }
-/* .ui.image {
-  z-index: -10000;
-} */
+
 .ui.tabular.menu .item {
   background: #fff !important;
   border-radius: 0 1ch 0 0 !important;
   margin-right: 2px !important;
 }
+img.ui.image {
+  z-index: -9999;
+}
+.ui.centered.card {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+}
 .profile-image {
   float: right;
   margin-top: -50px;
   margin-right: 50px;
-  border: #f44242 3px solid;
+  border: #d6d5d5 6px solid;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
 }
 .ui.card > .image > img,
 .ui.cards > .card > .image > img {
@@ -46,6 +156,42 @@ a.icon-right {
 }
 .search-sec {
   padding: 2rem;
+}
+@media only screen and (max-width: 768px) {
+  .ui.wide.left.sidebar,
+  .ui.wide.right.sidebar {
+    height: 100vh !important;
+    position: absolute;
+  }
+
+  .pusher {
+    margin-left: 20px;
+  }
+  .react-autosuggest__input {
+    width: 300px;
+  }
+  .react-autosuggest__suggestions-container--open {
+    width: 380px;
+  }
+}
+.toc {
+  width: 200px;
+}
+
+.article {
+  margin-left: 210px;
+}
+
+.pushable {
+  min-height: 100vh;
+}
+
+.ui.wide.left.sidebar,
+.ui.wide.right.sidebar {
+  height: 100vh;
+  position: fixed !important;
+  bottom: 0px !important;
+  top: 0px !important;
 }
 .ui.icon.header.aligned {
   padding-top: 10% !important;
@@ -60,6 +206,7 @@ a.icon-right {
   background-image: url("/images/background.jpg") !important;
   background-size: cover !important;
   min-height: 700px;
+  margin-top: -14px !important;
 }
 .ui.table td img {
   max-width: 50px;

@@ -1,21 +1,35 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Grid, Image, Item, Label, Card, Icon } from "semantic-ui-react";
+import { Grid, Image, Card, Icon } from "semantic-ui-react";
 import API from "../API";
-import dashboard from "./Dashborad";
 
 class MyAirport extends Component {
   handleLike = () => {
     API.likeAirport(this.props.myairport).then(data => {
       if (data.error) {
         alert(`Didn't work!: ${data.error}`);
+      } else {
+        // window.location.reload();
+
+        API.getMyAirports().then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            this.props.handleStateUpdateLikeAirport(data);
+          }
+        });
       }
     });
   };
+
   render() {
+    const { liked } = this.props;
     if (this.props.myairport) {
       return (
-        <Card centered="true">
+        <Card
+          centered="true"
+          href={"../airports/" + this.props.myairport.iatacode}
+        >
           <Image
             fluid
             src={"/images/" + this.props.myairport.icaocode + ".jpg"}
@@ -32,25 +46,13 @@ class MyAirport extends Component {
           <Card.Content>
             <Card.Header>{this.props.myairport.name}</Card.Header>
             <Card.Meta>
-              <span className="date">{this.props.myairport.icaocode}</span>
+              <span className="date">
+                ICAO Code: {this.props.myairport.icaocode}
+              </span>
             </Card.Meta>
-            <Card.Description>{this.props.myairport.icaocode}</Card.Description>
-            <span className="date">{this.props.myairport.icaocode}</span>
-          </Card.Content>
-          <Card.Content extra>
-            <a>
-              <Icon name="map marker alternate" />
-              {Math.round(this.props.myairport.distance * 10) / 10} Miles
-            </a>
-            <a
-              className="icon-right"
-              onClick={event => {
-                event.stopPropagation();
-                this.handleLike();
-              }}
-            >
-              <Icon name="heart outline" />
-            </a>
+            <Card.Description>
+              IATA code: {this.props.myairport.iatacode}
+            </Card.Description>
           </Card.Content>
         </Card>
       );
